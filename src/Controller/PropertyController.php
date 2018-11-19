@@ -3,6 +3,8 @@
 namespace App\Controller;
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +25,20 @@ class PropertyController extends AbstractController{
      * @Route("/biens", name="property.index")
      * @return Response
      */
-    public function index(): Response 
+    public function index(PaginatorInterface $paginator, Request $request): Response 
     {
-        $property = $this->repository->findAllVisible();     
+        //créer une entité qui va représenter la recherche
+        // Créer un formulaire
+        // Gérer le traitement dans le formulaire
+
+        $properties = $paginator->paginate(
+                $this->repository->findAllVisibleQuery(),
+                $request->query->getInt('page', 1),
+                12);     
         
         return $this->render('property/index.html.twig',[
             'current_menu' => 'properties',
+            'properties' => $properties,
         ]);
     }
     /**
