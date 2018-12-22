@@ -6,6 +6,7 @@ use App\Entity\Property;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PropertyType extends AbstractType
@@ -26,6 +27,9 @@ class PropertyType extends AbstractType
             ->add('address')
             ->add('postal_code')
             ->add('sold')
+            ->add('imageFile', FileType::class,[
+                'required' => false
+            ])
         ;
     }
 

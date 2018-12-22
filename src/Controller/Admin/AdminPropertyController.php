@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminPropertyController extends AbstractController{
@@ -58,16 +61,20 @@ class AdminPropertyController extends AbstractController{
     /**
      * @Route("/admin/property/{id}", name="admin.property.edit", methods="GET|POST", requirements={"id"="\d+"})
      */
-    public function edit(Property $property, Request $request)
+    public function edit(Property $property, Request $request, UploaderHelper $helper, CacheManager $cache)
     {
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->em->flush();
-            $this->addFlash('success', 'Bien modifié avec succès');
-            return $this->redirectToRoute('admin.property.index');
-        }
+
+            if($property->getImageFile() instanceof UploadedFile){
+                $cache->remove($helper->asset($property, 'imageFile'));
+            };
+                $this->em->flush();
+                $this->addFlash('success', 'Bien modifié avec succès');
+                return $this->redirectToRoute('admin.property.index');     
+            }
         return($this->render('admin/property/edit.html.twig', [
             'property' => $property,
             'form' => $form->createView(),
