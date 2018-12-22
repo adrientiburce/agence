@@ -1,61 +1,98 @@
 {% extends 'base.html.twig' %}
 
-{% block title  property.title %}
+{% block title property.title %}
 
 {% block body %}
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-{% if property.filename %}
-    <img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('medium') }}" alt="" class="card-imd-top" style="width:100%; height:auto;">
-{% else %}
-    <img src=" {{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="" class="card-imd-top" style="width:100%; height:auto;">
+<div class="jumbotron">
+    <div class="container">
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% if not form.vars.valid %}
+    <div class="alert alert-danger">
+        Erreur, le message n'a pas été envoyé ! 
+    </div>
 {% endif %}
+
+        <div class="row">
+            <div class="col-md-8">
+                {% if property.filename %}
+                <img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('medium') }}" alt="" class="card-imd-top"
+                    style="width:100%; height:auto;">
+                {% else %}
+                <img src=" {{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="" class="card-imd-top"
+                    style="width:100%; height:auto;">
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <h1>{{property.title}}</h1>
+                <h2>{{property.rooms}} pièces {{property.surface}} m²</h2>
+                <div class="text-primary" style="font-size: 4rem; font-weight:bold">{{property.formattedPrice}} €</div>
+                <a href="" class="btn btn-primary">Contacter l'agence</a>
+                {{form_start(form)}}
+                <div id="contactForm" class="mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{form_row(form.firstname)}}
+                        </div>
+                        <div class="col-md-6">
+                            {{form_row(form.lastname)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{form_row(form.phone)}}
+                        </div>
+                        <div class="col-md-6">
+                            {{form_row(form.email)}}
+                        </div>
+                    </div>
+                    {{form_rest(form)}}
+                    <div class="form-group">
+                        <button class="btn btn-primary">Envoyer</button>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h1>{{property.title}}</h1>
-                    <h2>{{property.rooms}} pièces {{property.surface}} m²</h2>
-                    <div class="text-primary" style="font-size: 4rem; font-weight:bold">{{property.formattedPrice}} €</div>
-                    <a href="" class="btn btn-primary">Contacter l'agence</a>
-                </div>
+                {{form_end(form)}}
             </div>
         </div>
     </div>
+</div>
 
 <div class="container mt-4">
     <p>
         {{property.description | nl2br }}
     </p>
-   
-   
-        <div class="row">
-            <div class="col-md-8">
-                <h2>Caractéristiques </h2>
-                <table class="table table-striped">
-                    <tr>
-                        <td>Surface habitable</td>
-                        <td>{{property.surface}}</td>
-                    </tr>
-                    <tr>
-                        <td>Pièces</td>
-                        <td>{{property.rooms}}</td>
-                    </tr>
-                    <tr>
-                        <td>Etages</td>
-                        <td>{{property.floor}}</td>
-                    </tr>
-                    <tr>
-                        <td>Chauffage</td>
-                        <td>{{property.heatType}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <h2>Spécificités</h2>
-            </div>
-        </div>  
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Caractéristiques </h2>
+            <table class="table table-striped">
+                <tr>
+                    <td>Surface habitable</td>
+                    <td>{{property.surface}}</td>
+                </tr>
+                <tr>
+                    <td>Pièces</td>
+                    <td>{{property.rooms}}</td>
+                </tr>
+                <tr>
+                    <td>Etages</td>
+                    <td>{{property.floor}}</td>
+                </tr>
+                <tr>
+                    <td>Chauffage</td>
+                    <td>{{property.heatType}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>Spécificités</h2>
+        </div>
+    </div>
 </div>
-    
+
 
 {% endblock %}

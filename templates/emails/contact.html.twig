@@ -1,0 +1,37 @@
+<mjml>
+    <mj-body>
+        <mj-section>
+            <mj-column>
+
+                <mj-image width="100" src="/assets/img/logo-small.png"></mj-image>
+
+                <mj-divider border-color="#F45E43"></mj-divider>
+
+                <mj-text font-size="20px" color="#F45E43" font-family="helvetica">Vous avez recu un message de {{contact.email}}</mj-text>
+
+                <div class="container">
+                <p>Le message concerne le bien <a href="{{url('property.show', {slug: contact.property.slug, id: contact.property.id}) }}"> <strong>{{contact.property.title}}</strong> </a> </p>
+                    <table>
+                        <tr>
+                            <td>Nom : </td>
+                            <td>{{contact.lastname}}</td>
+                        </tr>
+                        <tr>
+                            <td>Prénom :
+                            </td>
+                            <td>{{contact.firstname}}</td>
+                        </tr>
+                        <tr>
+                            <td>Téléphone :</td>
+                            <td>{{contact.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td>Message :</td>
+                            <td>{{contact.message}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>
