@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Gérer les Biens' %}
-
+{% block title 'Gérer les Options' %}
 
 {% block body %}
+
     <div class="container mt-4">
-        <h1>Gérer les Biens </h1>
+        <h1>Gérer les Options </h1>
         
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
@@ -13,9 +13,10 @@
             </div>
         {% endfor %}
         
-        <div class="text-left  mb-4">
-            <a href="{{path('admin.property.new')}}" class="btn btn-info">Ajouter un bien</a>
+        <div class="text-left mb-4">
+            <a href="{{path('admin.optione.new')}}" class="btn btn-info">Ajouter une Option</a>
         </div>
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -24,14 +25,14 @@
                 </tr>
             </thead>
             <tbody>
-             {% for property in properties %}
+             {% for optione in optiones %}
                 <tr>
-                    <td>{{property.title}}</td>
+                    <td>{{optione.name}}</td>
                     <td>
-                        <a href="{{path('admin.property.edit', {'id': property.id})}}" class="btn btn-secondary">Editer</a>
-                        <form method="post" action="{{path('admin.property.delete', {'id': property.id})}}" style="display: inline-block"; onsubmit=" return confirm('Etes-vous vraiment sur ?')">
+                        <a href="{{path('admin.optione.edit', {'id': optione.id})}}" class="btn btn-secondary">Editer</a>
+                        <form method="post" action="{{path('admin.optione.delete', {'id': optione.id})}}" style="display: inline-block"; onsubmit=" return confirm('Etes-vous vraiment sur ?')">
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id)}}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ optione.id)}}">
                             <button class="btn btn-danger">Supprimer</button>
                         </form>
                     </td>
@@ -40,5 +41,5 @@
             </tbody>
         </table>
 
-{% endblock %}
 
+{% endblock %}

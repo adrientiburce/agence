@@ -1,3 +1,5 @@
 {
-    "emmet.triggerExpansionOnTab": true
+    "emmet.triggerExpansionOnTab": true,
+    "sync.autoUpload": true,
+    "sync.gist": "2be106631e940404ed0bfdfdf041f11d"
 }

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify; 
+use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection; 
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -117,9 +119,15 @@ class Property
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Optione", inversedBy="property")
+     */
+    private $optiones;
+
     public function __construct()
     {
-        $this->created_at = new \DateTime(); 
+        $this->created_at = new \DateTime();
+        $this->optiones = new ArrayCollection(); 
     }
 
     public function getId(): ?int
@@ -346,6 +354,34 @@ class Property
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Optione[]
+     */
+    public function getOptiones(): Collection
+    {
+        return $this->optiones;
+    }
+
+    public function addOptione(Optione $optione): self
+    {
+        if (!$this->optiones->contains($optione)) {
+            $this->optiones[] = $optione;
+            $optione->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOptione(Optione $optione): self
+    {
+        if ($this->optiones->contains($optione)) {
+            $this->optiones->removeElement($optione);
+            $optione->removeProperty($this);
+        }
 
         return $this;
     }
