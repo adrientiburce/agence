@@ -5,16 +5,16 @@
 {% block body %}
 <div class="jumbotron">
     <div class="container">
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-{% endfor %}
-{% if not form.vars.valid %}
-    <div class="alert alert-danger">
-        Erreur, le message n'a pas été envoyé ! 
-    </div>
-{% endif %}
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+            Erreur, le message n'a pas été envoyé !
+        </div>
+        {% endif %}
 
         <div class="row">
             <div class="col-md-8">
@@ -30,9 +30,12 @@
                 <h1>{{property.title}}</h1>
                 <h2>{{property.rooms}} pièces {{property.surface}} m²</h2>
                 <div class="text-primary" style="font-size: 4rem; font-weight:bold">{{property.formattedPrice}} €</div>
-                <a href="" class="btn btn-primary">Contacter l'agence</a>
+                <a href="" class="btn btn-primary" id="contactButton" {% if form.vars.submitted %}style="display: none;"
+                    {% endif %}>
+                    Contacter l'agence
+                </a>
                 {{form_start(form)}}
-                <div id="contactForm" class="mt-4">
+                <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display: none;" {% endif %}>
                     <div class="row">
                         <div class="col-md-6">
                             {{form_row(form.firstname)}}
@@ -92,7 +95,7 @@
             <h2>Spécificités</h2>
             <ul class="list-group">
                 {% for option in property.optiones %}
-                    <li class="list-group-item">{{ option.name }}</li>
+                <li class="list-group-item">{{ option.name }}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -100,4 +103,7 @@
 </div>
 
 
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
 {% endblock %}
